@@ -15,11 +15,11 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
 
         <!--Scala Version-->
         <scala.major-version>2.12</scala.major-version>
-        <scala.version>${scala.major-version}.6</scala.version>
+        <scala.version>${scala.major-version}.7</scala.version>
     </properties>
 
     <dependencyManagement>
