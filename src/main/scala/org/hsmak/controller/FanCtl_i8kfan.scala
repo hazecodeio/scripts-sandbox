@@ -20,11 +20,11 @@ object FanCtl_i8kfan extends App {
     .map(_ => true)
     .getOrElse(false)
 
-  val MAX = 39
-  val threshholdGap = 2
+  val MAX = 35 // ToDo: change to env variable
+//  val thresholdGap = 2 // ToDo: To be removed
 
   val util = new Utils
-  var prevThreshold = TempThreshEnum.HIGH
+  var prevThreshold = TempThreshEnum.LOW
   var thresholdChange: Boolean = true
 
   var currentThreshold = TempThreshEnum.HIGH // move this line outside the loop
@@ -32,7 +32,7 @@ object FanCtl_i8kfan extends App {
   while (true) {
     val coresTemp = Process("sensors") #| Process("grep Core") // call system commands
     val streamOfLines =
-      coresTemp.lineStream
+      coresTemp.lazyLines
         .collect(
           {
             case line: String => line
@@ -40,16 +40,16 @@ object FanCtl_i8kfan extends App {
         )
 
     streamOfLines
-      .map(line => line.split(" "))
-      .flatMap(_.toStream)
+      .flatMap(line => line.split(" "))
+//      .flatMap(_.to(LazyList)) // ToDo: unnecessary
       .filter(_.startsWith("+"))
       .filter(_.endsWith("°C"))
       .map(util.stripOffTheCrap(_))
     //      .foreach(println(_))
 
     val cpuTemp = streamOfLines
-      .map(line => line.split(" ")) //split each line on the space, so it will return another StreamOfString[]; precisely Stream<String[]>
-      .flatMap(_.toStream) // flatten Stream<String[]> into Stream<Stream<String>>, and then into a combined Stream<String>
+      .flatMap(line => line.split(" ")) //split each line on the space, so it will return another StreamOfString[]; precisely Stream<String[]>
+      //.flatMap(_.toStream) // flatten Stream<String[]> into Stream<Stream<String>>, and then into a combined Stream<String> // ToDo: unnecessary
       .filter(_.startsWith("+")) // filters on each line and each word per line
       .filter(_.endsWith("°C"))
       .map(util.stripOffTheCrap(_)) // could the use of head/headoption work before calling map?
@@ -60,7 +60,13 @@ object FanCtl_i8kfan extends App {
       println("cpuTemp " + cpuTemp)
     }
 
-    // move this logic to a method
+    //
+    /**
+     * ToDo:
+     *  - Fix:      when cpuTemp is already high during bootup and initial run, fan speed remained low
+     *              i.e. cpuTemp is already >= MAX
+     *  - Refactor: move this logic to a method
+     */
     if (cpuTemp >= MAX)
       currentThreshold = TempThreshEnum.HIGH
     else if (cpuTemp < MAX)
@@ -76,16 +82,16 @@ object FanCtl_i8kfan extends App {
       println(currentThreshold)
       println(thresholdChange)
     }
-    prevThreshold = currentThreshold;
+    prevThreshold = currentThreshold
 
     //change this if/else into a strategy design pattern
-    if (cpuTemp >= (MAX) && thresholdChange) {
-      val lineStream = Process("i8kfan 2 2").lineStream
+    if (cpuTemp >= MAX && thresholdChange) {
+      val lineStream = Process("i8kfan 2 2").lazyLines
       if (debug)
         lineStream.foreach(println(_))
     }
-    else if (cpuTemp < (MAX) && thresholdChange) {
-      val lineStream = Process("i8kfan 1 1").lineStream
+    else if (cpuTemp < MAX && thresholdChange) {
+      val lineStream = Process("i8kfan 1 1").lazyLines
       if (debug)
         lineStream.foreach(println(_))
     }

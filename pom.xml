@@ -21,8 +21,8 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <!--Scala Version-->
-        <scala.major-version>2.12</scala.major-version>
-        <scala.version>${scala.major-version}.7</scala.version>
+        <scala.major-version>2.13</scala.major-version>
+        <scala.version>${scala.major-version}.3</scala.version>
     </properties>
 
     <dependencyManagement>
@@ -57,7 +57,10 @@
                 <!-- scala plugin to let Maven compile and generate scala classes -->
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>3.4.2</version>
+                <version>4.3.0</version>
+                <configuration>
+                    <recompileMode>incremental</recompileMode>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -73,7 +76,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.2</version>
                 <configuration>
                     <archive>
                         <manifestEntries>

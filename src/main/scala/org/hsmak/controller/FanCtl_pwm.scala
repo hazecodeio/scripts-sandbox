@@ -19,7 +19,7 @@ object FanCtl_pwm extends App {
   while (true) {
     val coresTemp = Process("sensors") #| Process("grep Core")
     val streamOfLines =
-      coresTemp.lineStream
+      coresTemp.lazyLines
         .collect(
           {
             case line: String => line
@@ -28,16 +28,16 @@ object FanCtl_pwm extends App {
 
 
     streamOfLines
-      .map(line => line.split(" "))
-      .flatMap(_.toStream)
+      .flatMap(line => line.split(" "))
+//      .flatMap(_.toStream)
       .filter(_.startsWith("+"))
       .filter(_.endsWith("°C"))
       .map(util.stripOffTheCrap(_))
     //      .foreach(println(_))
 
     val max = streamOfLines
-      .map(line => line.split(" "))
-      .flatMap(_.toStream)
+      .flatMap(line => line.split(" "))
+//      .flatMap(_.toStream)
       .filter(_.startsWith("+"))
       .filter(_.endsWith("°C"))
       .map(util.stripOffTheCrap(_))
