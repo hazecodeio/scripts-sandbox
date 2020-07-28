@@ -1,3 +1,8 @@
+ToDo Items:
+    - Replace shell script with a Jar archive with all needed dependencies
+    - Use Java11's JLink  to convert the Jar to a low footprint binary
+    ------------------------------------------------------------------------------------
+
 ##############################
 Running the Jar using Scala
 ##############################

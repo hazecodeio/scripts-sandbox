@@ -9,7 +9,7 @@ import scala.sys.process._
 
 object FanCtl_i8kfan extends App {
 
-  println("FanCtrol has started monitoring your CPU temperature...")
+  println("FanCtl has started monitoring your CPU temperature...")
 
   val debug = args.filter(_.startsWith("-d="))
     .headOption.map(_.substring(3))
