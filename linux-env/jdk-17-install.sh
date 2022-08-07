@@ -1,7 +1,7 @@
 #!/bin/bash
 
-suffix=_11
-jdk_home=/opt/langs/java/jdk11-current
+suffix=_17
+jdk_home=/opt/langs/java/jdk17-current
 jdk_bin=$jdk_home/bin
 dst=/usr/bin
 
