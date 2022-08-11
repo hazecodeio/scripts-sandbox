@@ -26,7 +26,7 @@
         <scala.parallel.version>1.0.4</scala.parallel.version>
         <scala.xml.version>2.0.1</scala.xml.version>
         <scalaj.http.version>2.4.2</scalaj.http.version>
-        <play.version>2.8.13</play.version>
+        <play.version>2.8.16</play.version>
         <cats.version>2.7.0</cats.version>
         <akka.version>2.6.19</akka.version>
         <akka.http.version>10.2.9</akka.http.version>
