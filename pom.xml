@@ -21,7 +21,7 @@
         <encoding>UTF-8</encoding>
 
         <!-- scala-based -->
-        <scala.version>2.13.8</scala.version>
+        <scala.version>2.13.9</scala.version>
         <scala.compat.version>2.13</scala.compat.version>
         <scala.parallel.version>1.0.4</scala.parallel.version>
         <scala.xml.version>2.0.1</scala.xml.version>
